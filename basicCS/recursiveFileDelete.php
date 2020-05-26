@@ -3,18 +3,22 @@
 // Recursively delete all files starting with "0aH". The underlying assumption
 // here is that there are *a*lot* of files, so we'll be using the readdir
 // functions which are faster than glob() or using RecursiveDirectoryIterators.
-// So in this case we're chosing raw performance over simpler code.
+// So in this case we're choosing raw performance over simpler code.
 //
 // 2nd consideration: since we're concerned with being able to handle *a*lot*
 // of files, we won't be storing any filenames but rather deleting any matches
-// right away.
+// right away. As such, we're only returning the count/total of deleted files
+// rather than a list of deleted filenames.
 //
-// 3rd consideration: the parameters given for this excercise state that there
-// are a lot of files, it did not mention the possiblity of having extremely *deeply*
+// 3rd consideration: the parameters given for this exercise state that there
+// are a lot of files, it did not mention the possibility of having extremely *deeply*
 // nested directory structures, as such a recursive approach should be OK.
 // - If we have to deal with *deeply* nested directory structures (seems
 //   improbable, but theoretically possible), we should opt for an iterative solution.
 //
+// Note: for the purpose of this exercise, we're not concerned about file permissions,
+// thus no checks on whether we have permissions to create the test files or
+// delete the actual files are performed.
 //
 
 
