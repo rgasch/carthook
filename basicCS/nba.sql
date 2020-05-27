@@ -74,7 +74,7 @@ CREATE TABLE `games` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `idx__games_date` (`date`),
+  KEY `idx__games_date` (`date`, `city`),
   KEY `idx__games_date_team1` (`team1_id`, `date`),
   KEY `idx__games_date_team2` (`team2_id`, `date`),
   CONSTRAINT `fk_games__team1` FOREIGN KEY (`team1_id`) REFERENCES `teams` (`id`),
@@ -84,7 +84,8 @@ CREATE TABLE `games` (
 
 --
 -- If game_id is NULL, then we can assume that the record is for an entire season
--- If game_id is NULL AND season is NULL, then we can assume that the record is for the payer's entire career
+-- If game_id is NULL AND season is NULL, then we can assume that the record is for the player's entire career
+-- Not optimal, but will have to do for now
 DROP TABLE IF EXISTS `stats`;
 CREATE TABLE `stats` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
