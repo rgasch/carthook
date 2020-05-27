@@ -12,8 +12,8 @@
 // Performance (on my machine, which has a lot of RAM (irrelevant for this excercise)
 // but is nothing special in CPU terms):
 //
-// Count Sort: 0.012 secs
-// PHP Native Sort: 0.068 secs
+// Count Sort (avg): 0.02 secs
+// PHP Native Sort (avg): 0.07 secs
 //
 // Since this basically runs in real-time, there's no need to estimate how long it
 // would take.
@@ -73,7 +73,7 @@ function countSort(array $values) : array
 		        // Default case, exact match/mapping
 		        $sorted[] = $values[$counts[$i]['origKeys'][0]];
             } else {
-		        // In case we have a collision (ie: multiple integer based-10 exponents
+	        // In case we have a collision (ie: multiple integer based-10 exponents
                 // we need to perform another sort on the values in order to ensure that
                 // we insert them in the correct order. Given the setup of this problem,
                 // this should be an extremely rarely used code-path requiring the sort
@@ -166,7 +166,7 @@ $diff2 = $endtime - $starttime;
 print "//////////////////////////////////////////////////////////////////////\n";
 print "//////////////////////////// RESULT DATA /////////////////////////////\n";
 print "//////////////////////////////////////////////////////////////////////\n";
-var_dump (array_slice($v, 0, 3));
+var_dump (array_slice($sorted, 0, 3));
 
 
 print "------- Performance Timings ----------\n";
