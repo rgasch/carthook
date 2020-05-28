@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('users', 'ApiController@users');
+Route::get('users/{uid}', 'ApiController@user');
+Route::get('users/{uid}/posts', 'ApiController@userPosts');
+Route::get('posts/{pid}/comments', 'ApiController@userPostComments');
