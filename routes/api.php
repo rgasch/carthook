@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('users', 'ApiController@users');
-Route::get('users/{uid}', 'ApiController@user');
-Route::get('users/{uid}/posts', 'ApiController@userPosts');
-Route::get('posts/{pid}/comments', 'ApiController@userPostComments');
+Route::get('users',                           'ApiController@users');
+Route::get('users/{uid}',                     'ApiController@user');
+Route::get('users/{uid}/posts/{searchText?}', 'ApiController@userPosts');
+Route::get('posts/{searchText}',              'ApiController@postSearch');
+Route::get('posts/{pid}/comments',            'ApiController@postComments');
