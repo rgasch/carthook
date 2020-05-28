@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 
 class User extends AbstractReadFromApi
 {
+    // Acquire data from API and save it to DB
     protected static function getAndInsertData(int $id=null) : Collection
     {
         $url           = self::getApiUrl('users');
@@ -29,6 +30,7 @@ class User extends AbstractReadFromApi
         return $rc;
     }
 
+    // Get user data, either from local DB/cache or from API
     public static function get() : Collection
     {
         // Try to get from DB
@@ -43,6 +45,7 @@ class User extends AbstractReadFromApi
     }
 
 
+    // Find a specific user either by id or email
     public static function find($id) : Collection
     {
         if (filter_var($id, FILTER_VALIDATE_EMAIL)) {

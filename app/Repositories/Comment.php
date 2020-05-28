@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 
 class Comment extends AbstractReadFromApi
 {
+    // Acquire data from API and save it to DB
     public static function getAndInsertData(int $id=null) : Collection
     {
         $url           = self::getApiUrl('posts', $id, 'comments');
@@ -31,6 +32,7 @@ class Comment extends AbstractReadFromApi
         return $rc;
     }
 
+    // Get comment data, either from local DB/cache or from API
     public static function get ($pid) : Collection
     {
         // Try to get from DB
