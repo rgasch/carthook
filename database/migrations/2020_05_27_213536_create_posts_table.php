@@ -15,12 +15,17 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_external')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->unsignedBigInteger('id_external')->unsigned();
+            $table->unsignedBigInteger('user_id')->unsigned();
             $table->string('title');
             $table->text('body');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
         });
+
+        // Create fulltext index
+        // WARNING: This is MySql specific
+        DB::statement('ALTER TABLE posts ADD FULLTEXT posts_fulltext_index (title)');
     }
 
     /**
