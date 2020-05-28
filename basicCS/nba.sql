@@ -24,8 +24,8 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
-DROP TABLE IF EXISTS `teams`;
-CREATE TABLE `teams` (
+DROP TABLE IF EXISTS `nba_teams`;
+CREATE TABLE `nba_teams` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL DEFAULT '',
   `city` varchar(32) NOT NULL DEFAULT '',
@@ -37,8 +37,8 @@ CREATE TABLE `teams` (
 ) ENGINE=InnoDB;
 
 
-DROP TABLE IF EXISTS `players`;
-CREATE TABLE `players` (
+DROP TABLE IF EXISTS `nba_players`;
+CREATE TABLE `nba_players` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `team_id` int unsigned NOT NULL,
   `name_first` varchar(32) NOT NULL DEFAULT '',
@@ -52,12 +52,12 @@ CREATE TABLE `players` (
   PRIMARY KEY (`id`),
   KEY `idx_players__team` (`team_id`),
   KEY `idx_players__player` (`name_last`, `name_first`),
-  CONSTRAINT `fk_players__team` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`)
+  CONSTRAINT `fk_players__team` FOREIGN KEY (`team_id`) REFERENCES `nba_teams` (`id`)
 ) ENGINE=InnoDB;
 
 
-DROP TABLE IF EXISTS `games`;
-CREATE TABLE `games` (
+DROP TABLE IF EXISTS `nba_games`;
+CREATE TABLE `nba_games` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `team1_id` int unsigned NOT NULL,
   `team2_id` int unsigned NOT NULL,
@@ -77,8 +77,8 @@ CREATE TABLE `games` (
   KEY `idx__games_date` (`date`, `city`),
   KEY `idx__games_date_team1` (`team1_id`, `date`),
   KEY `idx__games_date_team2` (`team2_id`, `date`),
-  CONSTRAINT `fk_games__team1` FOREIGN KEY (`team1_id`) REFERENCES `teams` (`id`),
-  CONSTRAINT `fk_games__team2` FOREIGN KEY (`team2_id`) REFERENCES `teams` (`id`)
+  CONSTRAINT `fk_games__team1` FOREIGN KEY (`team1_id`) REFERENCES `nba_teams` (`id`),
+  CONSTRAINT `fk_games__team2` FOREIGN KEY (`team2_id`) REFERENCES `nba_teams` (`id`)
 ) ENGINE=InnoDB;
 
 
@@ -86,8 +86,8 @@ CREATE TABLE `games` (
 -- If game_id is NULL, then we can assume that the record is for an entire season
 -- If game_id is NULL AND season is NULL, then we can assume that the record is for the player's entire career
 -- Not optimal, but will have to do for now
-DROP TABLE IF EXISTS `stats`;
-CREATE TABLE `stats` (
+DROP TABLE IF EXISTS `nba_stats`;
+CREATE TABLE `nba_stats` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `player_id` int unsigned NOT NULL DEFAULT 0,
   `game_id` int unsigned NULL DEFAULT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE `stats` (
   PRIMARY KEY (`id`),
   KEY `idx_stats__playerid` (`player_id`, `game_id`),
   KEY `idx_stats__gameid` (`game_id`),
-  CONSTRAINT `fk_stats__player` FOREIGN KEY (`player_id`) REFERENCES `players` (`id`),
-  CONSTRAINT `fk_stats__game` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`)
+  CONSTRAINT `fk_stats__player` FOREIGN KEY (`player_id`) REFERENCES `nba_players` (`id`),
+  CONSTRAINT `fk_stats__game` FOREIGN KEY (`game_id`) REFERENCES `nba_game` (`id`)
 ) ENGINE=InnoDB;
 
