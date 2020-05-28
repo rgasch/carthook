@@ -52,14 +52,18 @@ function deleteMatchingFiles (string $dirname, string $startStringOfFilename='0a
 	}
 
 	while ($file = readdir($dHandle)) {
+	    // Ignore . files, continue loop with next item
 		if ($file == "." || $file == "..") {
 			continue;
 		}
 
+		// Build fill filename
 		$fName = __DIR__ . "/$dirname/$file";
 		if (is_dir($fName)) {
+		    // Recursive call with new directory
 			$count += deleteMatchingFiles($fName, $startStringOfFilename);
 		} elseif (strpos($file, $startStringOfFilename) === 0) {
+		    // Delete file
 			unlink($fName);
 			$count++;
 		}

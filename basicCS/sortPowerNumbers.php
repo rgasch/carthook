@@ -55,6 +55,7 @@ function countSort(array $values) : array
 	$counts = [];
 	$min    = PHP_INT_MAX;
 	$max    = PHP_INT_MIN;
+
 	foreach ($values as $k=>$v) {
 	    $key = (int)($v['base10Exp']);
 		$counts[$key]['counts']      = isset($counts[$key]) ? $counts[$key]['counts'] + 1 : 1;
@@ -73,12 +74,15 @@ function countSort(array $values) : array
 		        // Default case, exact match/mapping
 		        $sorted[] = $values[$counts[$i]['origKeys'][0]];
             } else {
-	        // In case we have a collision (ie: multiple integer based-10 exponents
+	            // In case we have a collision (ie: multiple integer based-10 exponents
                 // we need to perform another sort on the values in order to ensure that
                 // we insert them in the correct order. Given the setup of this problem,
                 // this should be an extremely rarely used code-path requiring the sort
                 // of an extremely small (2 would be rare, 3 would be extremely rare, etc.)
                 // set of values;
+                // The easy/lazy way would have been to just use native PHP (quick)sort for
+                // this, but I'm assuming you were looking for an entirely self-written sort,
+                // so I implemented an insertion sort for this.
                 $tValues = [];
                 foreach ($counts[$i]['origKeys'] as $k) {
                     $tValues[] = $values[$k];

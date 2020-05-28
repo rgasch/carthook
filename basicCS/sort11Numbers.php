@@ -1,28 +1,26 @@
 <?php
 
-// Generate 11 random numbers between 0 and 100
-// This method of generating the random values is certainly not optimal,
-// but for the purpose of this excercise, we
+// Generate 11 random numbers between 0 and 100 and sort them.
 //
 // 1) Know that we're dealing with a small range of possible values
 // 2) Are primarily re concerned with sorting speed rather than generation-speed
 //
-//
-//
-// Performance (on my machine, which has a lot of RAM (irrelevant for this excercise)
-// but is nothing special in CPU terms (timings are for 1 million interations):
+// Performance (on my machine, which has a lot of RAM (irrelevant for this exercise)
+// but is nothing special in CPU terms (timings are for 1 million interations)):
 //
 // Count Sort: 18.629620075226 secs
 // PHP Native Sort: 0.88299703598022 secs
 //
 //
-// Performance estimate for 10 Billion iterations):
+// Performance estimate for 10 Billion (ie: 10000x above timings) iterations:
 //
 // Count Sort: 18.6296 * 10000 = 1186296 secs = 51.7 hours
 // PHP Native Sort: 0.8829 * 10000 = 8829 secs = 2.45 hours
 //
 
 
+// This method of generating the random values is certainly not optimal, but for the
+// purpose of this exercise, we're only concerned with the sorting speed.
 // As such, we'll take this simple but practical approach for generating the random numbers
 function generateUniqueRandom(int $min, int $max, int $quantity) : array
 {
@@ -34,15 +32,14 @@ function generateUniqueRandom(int $min, int $max, int $quantity) : array
 
 // Tested various sorts, this is the best I was able to come up with. This algorithm (counting
 // sort) is highly dependent on the range of values we're trying to sort; for this case it's
-// a really good candidate because we know our range is [0-100].
+// a really good candidate because we know that our range is [0-100].
 //
-// Native PHP sort still beats this by more than an order of magnitude,
-// which makes sense since
+// Native PHP sort still beats this by more than an order of magnitude, which makes sense since
 // 1) We're sorting a small (11-item) array
 // 2) Native PHP sort is implemented in compiled C vs. PHP code.
 //
 // #1 means that the penalty we're 'paying' for the (average) O(n log2 n) performance
-// for quicksort is small due to the small number of elements.
+// for native quicksort is small due to the small number of elements.
 function countSort(array $values) : array
 {
 	$counts = array();
