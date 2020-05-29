@@ -18,7 +18,7 @@ class Post extends AbstractReadFromApi
         foreach ($apiData as $v) {
             $model = new Model();
             $model->id_external = $v['id'];
-            $model->user_id     = $id;
+            $model->user_id     = $v['user_id'];
             $model->title       = $v['title'];
             $model->body        = $v['body'];
             if (count($rc) < $maxCacheItems) {

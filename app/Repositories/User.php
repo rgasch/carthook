@@ -52,7 +52,8 @@ class User extends AbstractReadFromApi
         }
 
         if (is_numeric($id)) {
-            return Model::find($id);
+            // Query by id_external to ensure that the IDs we search for matches the ID we received from the API.
+            return Model::where('id_external', $id)->first();
         }
 
         throw new \InvalidArgumentException('Invalid filter format [ NOT(email|int) ] received');
