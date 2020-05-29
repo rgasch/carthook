@@ -21,6 +21,7 @@ class CreateCommentsTable extends Migration
             $table->string('email');
             $table->text('body');
             $table->timestamps();
+            $table->index('post_id');
             $table->foreign('post_id')->references('id')->on('posts');
         });
     }
