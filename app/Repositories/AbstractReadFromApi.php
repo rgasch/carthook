@@ -79,11 +79,22 @@ abstract class AbstractReadFromApi
             throw new \InvalidArgumentException('Invalid [url] received');
         }
 
+        // Get the defined API timeout (in seconds) from Config. The reason this is
+        // configurable is:
+        // 1) The API we use seems to have a wide range of response times so easy adjustment may be desirable
+        // 2) Any time we can move from hardcoded code to configurable code is a good thing
+        $apiTimeoutSeconds = (int)Config::get("carthook.apiTimeoutSeconds", 150);
+
         // We could use something more flexible like Guzzle or Unirest here, but for
         // the purposes of this exercise we'll keep it simple and just use file_get_contents.
         // The primary reason for this is that we only need to process GET requests, so
         // there's no real need for a complicated solution at this point.
-        $data = file_get_contents($url);
+        // Since the remote API can be *really* slow, we set the timeout to 2.5 minutes, which
+        // should be enough. If it fails at that level, a JSON error message is returned
+        // and the user should try again.
+        $data = file_get_contents($url, 0, stream_context_create(["http"=>["timeout"=>$apiTimeoutSeconds]]));
+
+
         if (!$data) {
             return [];
         }
