@@ -50,11 +50,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        // Generate a new JSON exception for our API
-        if ($exception->getStatusCode() == 404) {
-            return response()->json([ 'error' => 'Resource not found' ], 404);
+        if ($exception instanceof \ErrorException) {
+            return response()->json([ 'error' => 'Error reading from API', 'message' => $exception->getMessage() ], 408);
         }
 
-        return parent::render($request, $exception);
+        return response()->json([ 'error' => 'Oops, something went wrong', 'message' => $exception->getMessage() ], 400);
     }
 }
+
