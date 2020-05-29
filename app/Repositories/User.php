@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\User as Model;
-use http\Exception\InvalidArgumentException;
 use Illuminate\Support\Collection;
 
 class User extends AbstractReadFromApi
@@ -46,7 +45,7 @@ class User extends AbstractReadFromApi
 
 
     // Find a specific user either by id or email
-    public static function find($id) : Collection
+    public static function find($id) : ?Model
     {
         if (filter_var($id, FILTER_VALIDATE_EMAIL)) {
             return Model::where('email', $id)->first();
@@ -56,7 +55,7 @@ class User extends AbstractReadFromApi
             return Model::find($id);
         }
 
-        throw new InvalidArgumentException('Invalid filter format [ NOT(email|int) ] received');
+        throw new \InvalidArgumentException('Invalid filter format [ NOT(email|int) ] received');
     }
 }
 
